@@ -1,0 +1,136 @@
+<html>
+    <head>
+    </head>
+
+    <body>
+        <!-- <div id="container">
+            <input type="text" id="id" placeholder="input"/>
+            <button onclick="print();">submit</button><br>
+        </div>
+        <div id="row">
+            <input type="number" id="counter" placeholder="insert row"/>
+            <button onclick="print2();">submit</button><br>
+        </div> -->
+
+        <select id="barang">
+            <option value="volvo">Volvo</option>
+            <option value="saab">Saab</option>
+            <option value="mercedes">Mercedes</option>
+            <option value="audi">Audi</option>
+        </select>
+        <form><input type="text" id="jumlah" placeholder="masukan jumlah"/></form>
+        <form><input type="text" id="harga" placeholder="masukan harga"/></form>
+
+        <button onclick="add()">Add rows</button>
+        <button onclick="del()">delete rows</button>
+
+        <table id="tbl" border="1">
+            <thead>
+                <th>No</th>
+                <th>nama</th>
+                <th>jumlah</th>
+                <th>harga</th>
+                <th>total</th>
+                <th>discount</th>
+                <th>Action</th>
+            </thead>
+
+            <tbody id="isi">
+                
+            </tbody>
+
+            <tr id="tot">
+                <td></td>
+                <td>Total Barang</td>
+                <td colspan="1" id="sumbrg"></td>
+                <td>Total Pembayaran</td>
+                <td colspan="2" id="sumhrg"></td>
+            </tr>
+        </table>
+
+
+        <script type="text/javascript">
+
+            function del(){
+                var x = document.getElementById("isi").rows.length;
+                document.getElementById("isi").deleteRow(x-1);
+
+                getTotal(callBackDel);
+            }
+
+            function add()
+            {
+                var x = document.getElementById("isi").rows.length;
+                var row = document.getElementById("isi").insertRow(x);
+                var cell1 = row.insertCell(0)
+                var cell2 = row.insertCell(1);
+                var cell3 = row.insertCell(2);
+                var cell4 = row.insertCell(3);
+                
+                var cell5 = row.insertCell(4);
+                var cell6 = row.insertCell(5);
+                var cell7 = row.insertCell(6);
+    
+                var jml = document.getElementById("jumlah").value;
+                var hrg = document.getElementById("harga").value;
+                var subtot = jml*hrg;
+                var disc = 0;
+                if (jml > 5) {
+                    disc = subtot*0.10;
+                }
+
+                cell1.innerHTML = x+1;
+                cell2.innerHTML = document.getElementById("barang").value;
+                cell3.innerHTML = jml;
+                cell4.innerHTML = hrg;
+                cell5.innerHTML = subtot - disc;
+                cell6.innerHTML = disc;
+                cell7.innerHTML = "<button id='cell' onclick='deleteRow(this)'>delete</button>";
+                
+
+                getTotal(callBackAdd);
+            }
+
+            function getTotal(callBack)
+            {
+                var tabel = document.getElementById('isi'), sum = 0, sumVal =0;
+                for(var i=0; i<tabel.rows.length; i++){
+                    sum += parseInt(tabel.rows[i].cells[2].innerHTML);
+                    sumVal += parseInt(tabel.rows[i].cells[4].innerHTML);
+                }
+                document.getElementById("sumbrg").innerHTML = sum;
+                document.getElementById("sumhrg").innerHTML = sumVal;
+
+                callBack();
+            }
+
+            function deleteRow(delbutton)
+            {   
+                var row = document.getElementById("isi");
+                row.deleteRow(delbutton.parentNode.parentNode.rowIndex-1);
+                
+                getTotal(callBackDel);
+            }
+
+            function callBackAdd(){
+                alert("Success")
+            }
+
+            function callBackDel(){
+                alert("Deleted")
+            }
+    
+            // function print(x){
+            //     if(x == null){
+            //         x = document.getElementById("id").value;
+            //         var y = document.getElementById("container");
+            //         for(let i=0; i<=x; i++){
+            //             if (i % 2 == 0){
+            //                 y.innerHTML += "cust : <input type='text'/><br>";
+            //             }
+            //         }
+            //     }
+            // } 
+        </script>
+    </body>
+</html>
